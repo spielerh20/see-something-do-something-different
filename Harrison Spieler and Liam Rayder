@@ -1,0 +1,78 @@
+#include <kipr/botball.h>
+int l_motor = 3;
+int r_motor = 0;
+int speed = 65;
+int fspeed = 80;
+int sspeed = 40;
+int pause = 1200;
+int green = 0;
+int orange = 1;
+int pink = 2;
+int camera = 2;
+int cam_servo = 0;
+int arm = 3;
+int arm_pos = 1700;
+int arm_not = 520;
+int arm_back = 1030;
+int target = 1;
+
+int main()
+{
+ camera_open();
+while(1){
+camera_update(); 
+   
+    if (get_object_count(green) >= target){ // if more green than target
+    printf("number of green = %d\n",get_object_count(green));
+     backwards(); // do backwads and forwards if see green
+      fowards();
+ }
+      
+    if (get_object_count(orange) >= target){  // if more orange than target
+    printf("number of orange=%d\n",get_object_count(orange)); // print orange if see orange
+    
+    }
+   
+    if (get_object_count(pink) >= target){  // if more pink than target
+    printf("number of pink=%d\n",get_object_count(pink));
+    wave(); // wave servo if see pink
+    }
+  
+ else {
+  printf("no color found\n"); // if no color found print no color found
+}
+  
+}
+  
+} 
+
+
+// functions
+
+void backwards(){
+motor (l_motor,-speed); 
+motor (r_motor,-speed);
+msleep(100);
+ao();
+}
+
+void fowards(){
+motor (l_motor,speed); 
+motor (r_motor,speed);
+msleep(100);
+ao();
+}
+
+void wave(){ 
+enable_servos();
+ printf("Waving!/n");
+set_servo_position(3, 1500);
+msleep(pause);
+set_servo_position(3, 925);
+msleep(pause);
+set_servo_position(3, 1500);
+msleep(pause);
+disable_servos();
+
+ 
+}
